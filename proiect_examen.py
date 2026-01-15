@@ -11,7 +11,7 @@ df = pd.read_csv('apple_quality.csv')
 print("\n=== Dimensiune ===")
 print(df.shape) #numarul de randuri si coloane
 print("\n=== Informații despre setul de date ===")
-print(df.info())
+df.info()
 print("\n=== Valori duplicate ===")
 print(df.duplicated().sum()) 
 print("\n=== Valori lipsă ===")
