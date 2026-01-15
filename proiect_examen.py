@@ -4,15 +4,15 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 from tabulate import tabulate 
 
-# ====== STATISTICI DESCRIPTIVE SI TESTE STATISTICE PENTRU CALITATEA MARULUI ======
+# ====== STATISTICI DESCRIPTIVE ======
 
-df = pd.read_csv('D:\\proiect_examen\\apple_quality.csv')
+df = pd.read_csv('apple_quality.csv')
 
 print("\n=== Dimensiune ===")
-print(df.shape) # afiseaza numarul de randuri si coloane
+print(df.shape) #numarul de randuri si coloane
 print("\n=== Informații despre setul de date ===")
 print(df.info())
-stat = df.describe().T # Transpus (.T) arată adesea mai bine pentru multe coloane
+stat = df.describe().T 
 print("\n" + " Statistici Descriptive ".center(104, "="))
 print(tabulate(stat, headers='keys', tablefmt='fancy_grid', numalign="right"))
 print("\n=== Valori duplicate ===")
@@ -22,6 +22,8 @@ if df.isna().sum().sum() == 0:
     print("Nu există valori lipsă în setul de date.")
 else:   
     print(df.isna().sum())
-
-
+# Eliminare rand cu valoari lipsa
+print("\n" , df[df.isnull().any(axis=1)])
+df = df.drop(index=4000)
+print("\n" ,df.shape)
 # %%
