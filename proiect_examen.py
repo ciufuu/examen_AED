@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tabulate import tabulate 
 from statsmodels.stats.outliers_influence import variance_inflation_factor
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
 # ====== VERIFICAREA SI PRELUCRAREA SETULUI DE DATE ======
 
@@ -137,6 +138,15 @@ try:
         if col != 'const':
             print(f"  {col:<12}: {odds_ratios[col]:.4f} (Un OR > 1 indică șanse crescute de calitate 'good')")
             
+    # Evaluarea performanței modelului
+    y_pred_prob = logit_model.predict(X)
+    y_pred = (y_pred_prob > 0.5).astype(int) # Convertim probabilitățile în clase (0 sau 1)
+    
+    print("\n" + " Performanța Modelului Logistic ".center(50, "-"))
+    print(f"Acuratețe: {accuracy_score(y, y_pred):.2%}")
+    print("\nMatrice de Confuzie:")
+    print(confusion_matrix(y, y_pred))
+    
 except Exception as e:
     print(f"Eroare la rularea regresiei logistice: {e}")
 # %%
