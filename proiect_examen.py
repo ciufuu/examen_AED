@@ -257,7 +257,7 @@ for col in X.columns:
 # ==========================================
 
 print("\n" + " Concluzii Finale ".center(104, "="))
-print("1. Caracteristicile 'Sweetness', 'Crunchiness' și 'Acidity' au un efect semnificativ asupra calității mărului.")
+print("1. Caracteristicile 'Sweetness', 'Size' și 'Juiciness' au un efect semnificativ asupra calității mărului.")
 print("2. Creșterea acestor caracteristici este asociată cu o probabilitate mai mare ca mărul să fie de calitate 'good'.")
 print("3. Nu s-au identificat probleme majore de multicoliniaritate între variabilele independente.")
 print("4. Testul T a confirmat existența diferențelor semnificative între mediile caracteristicilor pentru merele 'good' și 'bad'.")
