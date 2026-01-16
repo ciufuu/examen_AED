@@ -2,6 +2,7 @@
 import pandas as pd
 import scipy.stats as stats
 import matplotlib.pyplot as plt
+import numpy as np
 from tabulate import tabulate 
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 
@@ -20,6 +21,7 @@ if df.isna().sum().sum() == 0:
     print("Nu există valori lipsă în setul de date.")
 else:   
     print(df.isna().sum())
+
 # Eliminare rand cu valoari lipsa
 print("\n=== Rânduri cu valori lipsă ===")
 print("\n" , df[df.isnull().any(axis=1)])
@@ -64,9 +66,9 @@ plt.show()
 
 # %%
 
-# ==========================================
-# Definirea variabilelor pentru regresie  liniară
-# ==========================================
+# ==============================================
+# Definirea variabilelor pentru regresia liniară
+# ==============================================
 
 X = df[['Size', 'Weight', 'Sweetness', 'Crunchiness', 'Juiciness', 'Ripeness', 'Acidity']]  # variabile independente
 y = df['Quality_Binary'] #variabila dependenta
@@ -88,27 +90,16 @@ print("\n" + " Rezultatele Regresiei Liniară OLS ".center(104, "="))
 print(model.summary())
 # %%
 
-# ==========================================
-# Vizualizarea rezultatelor regresiei
-# ==========================================
+# ==================================================
+# Identificarea variabilelor semnificative statistic
+# ==================================================
 
-# vizzualizarea rezultatelor regresiei pentru variabilele independente semnificative statistic
-significant_vars = model.pvalues[model.pvalues < 0.05].index.tolist()
+# variabile semnificative statistic (p-value < 0.05)
+significant_vars = model.pvalues[model.pvalues < 0.05].index.tolist() # extragem variabilele semnificative
 significant_vars.remove('const')  # eliminam constanta
+print("\nVariabile semnificative statistic (p-value < 0.05):")
 for var in significant_vars:
-    plt.figure(figsize=(8, 6))
-    plt.scatter(df[var], y, alpha=0.5)
-    plt.xlabel(var)
-    plt.ylabel('Quality_Binary')
-    plt.title(f'Regresie Liniară: Quality_Binary vs {var}')
-    
-    # Linie de regresie
-    x_vals = pd.Series(sorted(df[var]))
-    y_vals = model.params['const'] + model.params[var] * x_vals
-    plt.plot(x_vals, y_vals, color='red')
-    
-    plt.show()
-    print("\n")
+    print(f" - {var}")
 # %%
 
 # ==========================================
@@ -127,6 +118,78 @@ for var in significant_vars:
     else:
         print(f"  Interpretare: O creștere cu o unitate în '{var}' este asociată cu o scădere a probabilității ca mărul să fie de calitate 'good'.")
     print("\n")
+# %%
+# ==========================================
+# Regresie Logistică (Logit) - Model Alternativ
+# ==========================================
+print("\n" + " Regresie Logistică (Logit) ".center(104, "="))
+print("Deoarece variabila dependentă este binară, aplicăm și un model Logit pentru validare statistică.\n")
+
+try:
+    # Antrenăm modelul logistic
+    logit_model = sm.Logit(y, X).fit(disp=0) # disp=0 ascunde mesajele tehnice de optimizare
+    print(logit_model.summary())
+    
+    print("\nInterpretare Coeficienți (Odds Ratio):")
+    # Exponențiala coeficienților ne dă "de câte ori cresc șansele"
+    odds_ratios = np.exp(logit_model.params)
+    for col in X.columns:
+        if col != 'const':
+            print(f"  {col:<12}: {odds_ratios[col]:.4f} (Un OR > 1 indică șanse crescute de calitate 'good')")
+            
+except Exception as e:
+    print(f"Eroare la rularea regresiei logistice: {e}")
+# %%
+# =========================================
+# Vizualizarea rezultatelor regresiei logistice
+# ==========================================
+
+for var in significant_vars:
+    plt.figure(figsize=(8, 6))
+    plt.scatter(df[var], y, alpha=0.5)
+    plt.xlabel(var)
+    plt.ylabel('Quality_Binary')
+    plt.title(f'Regresie Logistică: Quality_Binary vs {var}')
+    
+    # Linie de regresie logistică
+    x_vals = pd.Series(sorted(df[var]))
+    logit_y_vals = logit_model.params['const'] + logit_model.params[var] * x_vals
+    prob_y_vals = 1 / (1 + np.exp(-logit_y_vals))
+    plt.plot(x_vals, prob_y_vals, color='green')
+    
+    plt.show()
+    print("\n")
+# %%
+# ==========================================
+# Vizualizare Curba Sigmoidă (Exemplu: Sweetness)
+# ==========================================
+print("\n" + " Vizualizare Curba Sigmoidă (Sweetness) ".center(104, "="))
+
+# Selectăm variabila de interes
+var_name = 'Sweetness'
+
+# Antrenăm un model logistic doar pe această variabilă pentru o vizualizare 2D corectă
+X_uni = sm.add_constant(df[[var_name]])
+model_uni = sm.Logit(y, X_uni).fit(disp=0)
+
+# Generăm valori pentru axa X (de la min la max)
+x_vals = np.linspace(df[var_name].min(), df[var_name].max(), 500)
+# Calculăm probabilitățile (Sigmoida)
+y_probs = model_uni.predict(sm.add_constant(pd.DataFrame({var_name: x_vals})))
+
+plt.figure(figsize=(10, 6))
+# 1. Scatter plot cu datele reale
+plt.scatter(df[var_name], y, color='black', alpha=0.1, label='Date Reale')
+# 2. Curba Sigmoidă
+plt.plot(x_vals, y_probs, color='red', linewidth=3, label='Curba Sigmoidă')
+# 3. Linia de prag 0.5
+plt.axhline(0.5, color='blue', linestyle='--', label='Prag de decizie (0.5)')
+
+plt.title(f'Curba Sigmoidă pentru {var_name}')
+plt.xlabel(var_name)
+plt.ylabel('Probabilitate (Calitate = Good)')
+plt.legend()
+plt.show()
 # %%
 # ==========================================
 # Formularea Ipotezelor Statistice
