@@ -272,4 +272,5 @@ print("2. Creșterea acestor caracteristici este asociată cu o probabilitate ma
 print("3. Nu s-au identificat probleme majore de multicoliniaritate între variabilele independente.")
 print("4. Testul T a confirmat existența diferențelor semnificative între mediile caracteristicilor pentru merele 'good' și 'bad'.")
 print("5. Aceste rezultate pot ghida producătorii în optimizarea caracteristicilor mărului pentru a îmbunătăți calitatea acestuia.")
+
 # %%
