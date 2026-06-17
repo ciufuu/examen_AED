@@ -8,7 +8,7 @@ Proiectul are ca obiectiv principal analiza statistică, modelarea predictivă �
 
 - **Analiza Exploratorie a Datelor (EDA):** Curățarea setului de date, vizualizarea distribuțiilor și analiza corelațiilor dintre proprietățile merelor (mărime, greutate, dulceață, crocant, aciditate etc.).
 - **Modelare Predictivă:** Implementarea unor modele statistice și de Machine Learning (cum ar fi modele de regresie și clasificare) pentru evaluarea calității fructelor.
-- **Evaluarea Performanței:** Generarea și interpretarea metricilor de clasificare, inclusiv utilizarea matricelor de confuzie pentru validarea acurateții modelelor.
+- **Evaluarea Performanței:** Generarea și interpretarea metricilor de clasificare
 
 ## 📂 Structura Repository-ului
 
@@ -52,14 +52,14 @@ Bash
 
 python proiect_examen.py
 
-Sau poți deschide notebook-ul interactiv pentru a vedea graficele și matricea de confuzie pas cu pas:
+Sau poți deschide notebook-ul interactiv pentru a vedea graficele pas cu pas:
 Bash
 
 jupyter notebook proiect_examen.ipynb
 
 📈 Rezultate și Concluzii
 
-Analiza detaliată a testelor statistice efectuate, coeficienții modelelor de regresie și interpretarea matricelor de confuzie se regăsesc argumentate pe larg în fișierul analiza_rezultatelor.docx.
+Analiza detaliată a testelor statistice efectuate, coeficienții modelelor de regresie se regăsesc argumentate mai pe larg în fișierul analiza_rezultatelor.docx.
 
 📝 Autori
 
