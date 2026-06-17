@@ -2,7 +2,7 @@
 
 Acest repository conține proiectul realizat pentru examenul la disciplina **Analiza și Exploatarea Datelor (AED)** din cadrul **Universității Transilvania din Brașov (UNITBV)**. 
 
-Proiectul are ca obiectiv principal analiza statistică, modelarea predictivă și evaluarea unui set de date care măsoară diverse caracteristici fizice și organoleptice ale unui lot de mere, cu scopul de a determina calitatea acestora și de a clasifica fructele în categorii corespunzătoare.
+Proiectul are ca obiectiv principal analiza statistică, modelarea predictivă și evaluarea unui set de date care măsoară diverse caracteristici ale unui lot de mere, cu scopul de a determina calitatea acestora și de a clasifica fructele în categorii corespunzătoare.
 
 ## 📊 Obiectivele Proiectului
 
