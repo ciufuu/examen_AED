@@ -60,6 +60,7 @@ jupyter notebook proiect_examen.ipynb
 📈 Rezultate și Concluzii
 
 Analiza detaliată a testelor statistice efectuate, coeficienții modelelor de regresie și interpretarea matricelor de confuzie se regăsesc argumentate pe larg în fișierul analiza_rezultatelor.docx.
+
 📝 Autori
 
     Ciufu Andrei (@ciufuu)
